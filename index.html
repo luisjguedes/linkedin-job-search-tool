@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LinkedIn Job Search Builder</title>
+</head>
+<body>
+  <h1>LinkedIn Job Search Builder</h1>
+  <form id="searchForm">
+    <label>
+      Keywords:
+      <input type="text" id="keywords" placeholder="e.g., technical writer" required />
+    </label><br/><br/>
+    <label>
+      Location:
+      <input type="text" id="location" placeholder="e.g., Lisbon, Portugal" required />
+    </label><br/><br/>
+    <label>
+      Distance (miles):
+      <input type="number" id="distance" value="25" />
+    </label><br/><br/>
+    <label>
+      Time Posted:
+      <select id="timePosted">
+        <option value="r86400">Past 24 hours</option>
+        <option value="r604800">Past week</option>
+        <option value="r2592000">Past month</option>
+      </select>
+    </label><br/><br/>
+    <label>
+      Experience Level:
+      <select id="experienceLevel">
+        <option value="">Any</option>
+        <option value="1">Internship</option>
+        <option value="2">Entry level</option>
+        <option value="3">Associate</option>
+        <option value="4">Mid-Senior level</option>
+        <option value="5">Director</option>
+        <option value="6">Executive</option>
+      </select>
+    </label><br/><br/>
+    <label>
+      Job Type:
+      <select id="jobType">
+        <option value="">Any</option>
+        <option value="F">Full-time</option>
+        <option value="P">Part-time</option>
+        <option value="C">Contract</option>
+        <option value="T">Temporary</option>
+        <option value="V">Volunteer</option>
+        <option value="I">Internship</option>
+        <option value="O">Other</option>
+      </select>
+    </label><br/><br/>
+    <label>
+      Work Type:
+      <select id="workType">
+        <option value="">Any</option>
+        <option value="1">On-site</option>
+        <option value="2">Remote</option>
+        <option value="3">Hybrid</option>
+      </select>
+    </label><br/><br/>
+    <button type="submit">Generate Search URL</button>
+  </form>
+  <p id="result"></p>
+
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const keywords = encodeURIComponent(document.getElementById('keywords').value.trim());
+      const location = encodeURIComponent(document.getElementById('location').value.trim());
+      const distance = document.getElementById('distance').value;
+      const timePosted = document.getElementById('timePosted').value;
+      const experienceLevel = document.getElementById('experienceLevel').value;
+      const jobType = document.getElementById('jobType').value;
+      const workType = document.getElementById('workType').value;
+
+      let url = `https://www.linkedin.com/jobs/search/?keywords=${keywords}&location=${location}&distance=${distance}&f_TPR=${timePosted}`;
+
+      if (experienceLevel) url += `&f_E=${experienceLevel}`;
+      if (jobType) url += `&f_JT=${jobType}`;
+      if (workType) url += `&f_WT=${workType}`;
+
+      document.getElementById('result').innerHTML = `<a href="${url}" target="_blank">Open LinkedIn Job Search</a>`;
+    });
+  </script>
+</body>
+</html>
